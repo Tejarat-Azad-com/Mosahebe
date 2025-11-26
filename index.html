@@ -69,7 +69,7 @@
             color: var(--dark);
             line-height: 1.7;
             font-family: 'Vazir', 'Tahoma', 'Arial', sans-serif;
-            padding-top: 120px; /* برای فاصله دادن محتوا از هدر ثابت */
+            padding-top: 100px; /* برای فاصله دادن محتوا از هدر ثابت */
         }
         
         @font-face {
@@ -89,6 +89,7 @@
             top: 0;
             width: 100%;
             z-index: 1002;
+            height: 40px;
         }
         
         .top-bar-container {
@@ -98,6 +99,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1rem;
+            height: 100%;
         }
         
         .top-bar-right, .top-bar-left {
@@ -241,7 +243,7 @@
             color: white;
             padding: 0.7rem 0;
             margin-bottom: 2rem;
-            margin-top: 120px; /* فاصله از هدر ثابت */
+            margin-top: 100px; /* فاصله از هدر ثابت */
         }
         
         .breaking-news-container {
@@ -799,6 +801,10 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                padding-top: 140px; /* افزایش فاصله برای موبایل */
+            }
+            
             .container {
                 grid-template-columns: 1fr;
             }
@@ -806,6 +812,7 @@
             .header-container {
                 flex-direction: row;
                 flex-wrap: nowrap;
+                padding: 0.8rem 1rem;
             }
             
             .logo {
@@ -824,7 +831,7 @@
             .nav-menu {
                 position: fixed;
                 right: -100%;
-                top: 160px;
+                top: 140px; /* ارتفاع top-bar + header در موبایل */
                 flex-direction: column;
                 background-color: var(--primary-dark);
                 width: 100%;
@@ -833,6 +840,8 @@
                 box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
                 padding: 2rem 0;
                 z-index: 1000;
+                height: calc(100vh - 140px);
+                overflow-y: auto;
             }
             
             .nav-menu.active {
@@ -846,20 +855,31 @@
             .nav-menu li a {
                 padding: 1rem;
                 display: block;
+                font-size: 1.1rem;
             }
             
             .top-bar-container {
                 flex-direction: column;
                 text-align: center;
+                padding: 0.3rem 1rem;
             }
             
             .top-bar-right, .top-bar-left {
                 justify-content: center;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .top-bar-item {
+                margin-left: 1rem;
+                font-size: 0.8rem;
             }
             
             .article-title {
                 font-size: 1.8rem;
+            }
+            
+            .article-header, .article-content {
+                padding: 1.5rem;
             }
             
             .footer-container {
@@ -873,22 +893,60 @@
             
             .share-buttons {
                 justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.5rem;
             }
             
-            body {
-                padding-top: 160px; /* افزایش فاصله برای موبایل */
+            .share-btn {
+                margin-left: 0;
+                margin-right: 0.5rem;
+            }
+            
+            .breaking-news {
+                margin-top: 140px; /* فاصله از هدر ثابت در موبایل */
             }
             
             header {
                 top: 40px; /* ارتفاع top-bar در موبایل */
             }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 120px;
+            }
             
             .breaking-news {
-                margin-top: 160px; /* فاصله از هدر ثابت در موبایل */
+                margin-top: 120px;
+            }
+            
+            .top-bar {
+                height: 35px;
+            }
+            
+            header {
+                top: 35px;
+            }
+            
+            .nav-menu {
+                top: 115px; /* 35px + 80px */
+                height: calc(100vh - 115px);
+            }
+            
+            .article-title {
+                font-size: 1.5rem;
+            }
+            
+            .article-header, .article-content {
+                padding: 1rem;
+            }
+            
+            .highlight-box {
+                padding: 1.5rem;
             }
         }
 
-        /* استایل برای اسکرول هدر */
+        /* استایل برای اسکرول هدر - بهبود یافته */
         .sticky {
             position: fixed;
             top: 0;
@@ -896,9 +954,35 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        /* افزودن فاصله برای محتوای اصلی وقتی هدر ثابت است */
-        .content-with-sticky-header {
-            margin-top: 120px;
+        .sticky + .breaking-news {
+            margin-top: 80px; /* وقتی هدر ثابت است */
+        }
+        
+        /* بهبود انیمیشن برای موبایل */
+        @media (max-width: 768px) {
+            .breaking-news-content {
+                height: auto;
+                min-height: 24px;
+            }
+            
+            .breaking-news-text {
+                position: static;
+                animation: none;
+                white-space: normal;
+                text-align: center;
+            }
+            
+            .breaking-news-label {
+                margin-left: 0;
+                margin-bottom: 0.5rem;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .breaking-news-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
     </style>
 </head>
@@ -1187,11 +1271,11 @@
                 <ul class="footer-contact">
                     <li>
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>تهران، خیابان ولیعصر، کوچه دمشق پلاک ۱۰۰، ساختمان نگین طبقه ۴</span>
+                        <span>تهران، خیابان ولیعصر، پلاک ۱۰۰، ساختمان تجارت، طبقه ۴</span>
                     </li>
                     <li>
                         <i class="fas fa-phone"></i>
-                        <span>50449</span>
+                        <span>۰۲۱-۲۲۲۲۲۲۲۲</span>
                     </li>
                     <li>
                         <i class="fas fa-envelope"></i>
@@ -1210,10 +1294,9 @@
     </footer>
 
     <script>
-        // اسکریپت برای ثابت نگه داشتن هدر هنگام اسکرول
+        // اسکریپت برای ثابت نگه داشتن هدر هنگام اسکرول - بهبود یافته
         window.addEventListener('scroll', function() {
             const header = document.getElementById('mainHeader');
-            const topBar = document.querySelector('.top-bar');
             const breakingNews = document.querySelector('.breaking-news');
             
             if (window.scrollY > 100) {
@@ -1223,7 +1306,7 @@
             } else {
                 header.classList.remove('sticky');
                 header.style.top = '40px';
-                breakingNews.style.marginTop = '120px';
+                breakingNews.style.marginTop = '100px';
             }
         });
 
@@ -1233,12 +1316,30 @@
         
         hamburger.addEventListener('click', function() {
             navMenu.classList.toggle('active');
+            // تغییر آیکون همبرگر
+            if (navMenu.classList.contains('active')) {
+                hamburger.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            }
         });
 
         // بستن منو هنگام کلیک روی یک لینک
         document.querySelectorAll('.nav-menu li a').forEach(n => n.addEventListener('click', function() {
             navMenu.classList.remove('active');
+            hamburger.innerHTML = '<i class="fas fa-bars"></i>';
         }));
+
+        // بستن منو هنگام کلیک خارج از منو
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = navMenu.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickOnHamburger && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
     </script>
 </body>
 </html>
